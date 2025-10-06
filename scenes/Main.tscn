@@ -1,0 +1,97 @@
+[gd_scene load_steps=7 format=3 uid="uid://bbvsjcnp3caci"]
+
+[ext_resource type="Script" path="res://scripts/Main.gd" id="1_2y5xw"]
+[ext_resource type="PackedScene" uid="uid://dh5xbt6rn6qsl" path="res://scenes/Player.tscn" id="2_4z8vn"]
+[ext_resource type="Script" path="res://scripts/BallSpawner.gd" id="3_6a9cm"]
+[ext_resource type="Script" uid="uid://cg2twyqks4hmo" path="res://scripts/UI.gd" id="4_7b0dp"]
+[ext_resource type="FontFile" uid="uid://6fcryp1b7m34" path="res://assets/font/PressStart2P-Regular.ttf" id="5_vcsgt"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vcsgt"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_2y5xw")
+
+[node name="Player" parent="." instance=ExtResource("2_4z8vn")]
+position = Vector2(480, 270)
+
+[node name="BallSpawner" type="Node2D" parent="."]
+script = ExtResource("3_6a9cm")
+
+[node name="SpawnTimer" type="Timer" parent="BallSpawner"]
+
+[node name="ScoreTimer" type="Timer" parent="."]
+
+[node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource("4_7b0dp")
+
+[node name="ScoreLabel" type="Label" parent="UI"]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 200.0
+offset_bottom = 60.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("5_vcsgt")
+theme_override_font_sizes/font_size = 24
+text = "Score: 0"
+
+[node name="GameOverPanel" type="Panel" parent="UI"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -75.0
+offset_right = 150.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_vcsgt")
+
+[node name="GameOverLabel" type="Label" parent="UI/GameOverPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -30.0
+offset_right = 50.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.3019608, 0.3019608, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("5_vcsgt")
+theme_override_font_sizes/font_size = 32
+text = "Game Over"
+horizontal_alignment = 1
+
+[node name="RestartLabel" type="Label" parent="UI/GameOverPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = 10.0
+offset_right = 75.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("5_vcsgt")
+theme_override_font_sizes/font_size = 16
+text = "Click to restart"
+horizontal_alignment = 1
+
+[connection signal="hit" from="Player" to="." method="_on_player_hit"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
